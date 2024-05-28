@@ -1,60 +1,67 @@
-<?php
-$verz = "1.0";
-/*if (isset($_POST["led"])) { //Si ya fue creado el objeto “led”...
-  $comPort = "/dev/ttyACM0"; //Colocar el puerto que corresponda.
-  $led = $_POST["led"]; //Recibe el balor booleano del LED.
-  $fp = fopen($comPort, " w "); //Abre el archivo ttyACM0 para escritura.
-  sleep(2);
-  fwrite($fp, $led); // Escribimos el valor de la variable $led en el puero com.
-  fclose($fp);
-} //Cierra el dispositivo.
-
-// Configura el puerto COM1 con los parámetros deseados
-$output = `mode COM1: BAUD=115200 PARITY=N data=8 stop=1 XON=off TO=on`;
-
-// Abre el puerto COM1
-$fp = fopen('COM1', 'r+');
-if (!$fp) {
-  echo "El puerto no es accesible";
-} else {
-  echo "Puerto COM1 abierto correctamente";
-}
-
-// Escribe datos en el puerto
-$writtenBytes = fputs($fp, "Hello");
-echo "Bytes escritos en el puerto: $writtenBytes";
-
-// Lee datos del puerto
-$buffer = fgets($fp);
-echo "Datos leídos del buffer: $buffer";
-*/
-?>
 <html lang="es">
 
 <head>
   <title>
     Arduino - Conect
   </title>
+
+  <style>
+    table, tr, th, td{
+      border: 1px solid black;
+    }
+
+    table#datos tr td{
+      padding: 3px 7px;
+      border-radius: 0px;
+    }
+
+    table#datos tr:first-child th{
+      padding: 3px 7px;
+      border-radius: 10px 10px 0px 0px;
+    }
+
+    table#datos tr:last-child td{
+      padding: 3px 7px;
+      border-radius: 0px 0px 10px 10px;
+    }
+  </style>
 </head>
 
 <body>
-  <center>
-    <h1>Ejemplo de Arduino con PHP</h1><b>Version <?php echo $verz; ?></b>
-  </center>
-  <!--
-  <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-    &nbsp&nbsp&nbsp&nbsp
-    <input type="text" name="led">
-    <br />
-    <input type="submit" value="OK">
-    <br />
-  </form>-->
-  <button type="submit" id="webSerial">
-    WebSerial
-  </button>
-  <fieldset id="serial">
-    <legend>WEB SERIAL API</legend>
-  </fieldset>
+
+  <h1>Conectar Puerto Serie con php & Javascript</h1>
+
+  <h3> Ingrese los valores iniciales para comenzar el programa: </h3>
+  <form action="" id="initial_values" name="initial-values">
+    <fieldset>
+      <legend>DIMENSIONES DEL ESTANQUE</legend>
+      <label for="altura">Altura (cm): </label>
+      <input type="number" min="0" value="" id="altura" name="altura" required>
+      <br>
+      <label for="diametro">Diametro (cm):</label>
+      <input type="number" min="0" value="" id="diametro" name="diametro" required>
+      <br>
+      <input type="submit" value="Guardar">
+    </fieldset>
+  </form>
+  <form action="" id="monitor">
+    <fieldset>
+      <legend>PANEL DE MONITOREO</legend>
+
+      <div class="connect" id="connect">
+        Esperando por conexión de dispositivo...
+      </div>
+    </fieldset>
+    <fieldset>
+      <table id="datos" align="center" width="70%">
+        <tr>
+          <th>NIVEL DEL AGUA</th>
+          <th>PUREZA</th>
+          <th>TEMPERATURA</th>
+        </tr>
+      </table>
+    </fieldset>
+  </form>
   <!--<script src="WebUsb_Api\index.js"></script>-->
   <script src="WebSerial_Api/index.js"></script>
 </body>
