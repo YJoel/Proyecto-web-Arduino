@@ -10,17 +10,14 @@ int d6 = 3;
 int d7 = 2;
 long a;
 
-String entrada = "";
-int alto = 0;
-String altoStr = "";
-int diametro = 0;
-String diametroStr = "";
-// int largo = 0;
-String hola = "";
 int pasos = 1;
-bool bandera = false;
+String dimensiones = "";
+String alto = "";
+int altoInt = 0;
+String diametro = "";
+int diametroInt = 0;
 
-SR04 sr04 = SR04(ECHO_PIN,TRIG_PIN);
+SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
 LiquidCrystal lcd(rs, e, d4, d5, d6, d7);
 
 void setup() {
@@ -30,20 +27,53 @@ void setup() {
 }
 
 void loop() {
-  /*
+
+  
   if(pasos == 1){
     if(Serial.available() > 0){
       // Esperar a la entrada del ususario
-      altoStr = Serial.readString();
-      for(int i = 0; i < altoStr.length(); i ++){
-        if(altoStr[i] == '\n'){
-          altoStr.remove(i);
+      dimensiones = Serial.readString();
+      for(int i = 0; i < dimensiones.length(); i ++){
+        if(dimensiones[i] == '\n'){
+          dimensiones.remove(i);
         }
       }
+      alto = dimensiones.substring(0, dimensiones.indexOf(","));
+      altoInt = alto.toInt();
+      diametro = dimensiones.substring(dimensiones.indexOf(",")+1);
+      diametroInt = diametro.toInt();
       pasos++;
-      Serial.println(altoStr);
     }
   }
+  else{
+
+    // int vol = (altoInt - (int)a) * diametroInt;
+    // int nivel = alto - (int)a;
+    lcd.setCursor(0, 0);
+    lcd.print("");
+    a = sr04.Distance();
+    lcd.print(int(a));
+    delay(1000);
+    /*
+    lcd.print("Vol: ");
+    lcd.print(vol);
+    lcd.print("Nivel");
+    lcd.print(nivel);
+    */
+
+    //lcd.print(a);
+    //lcd.print("cm");
+
+    /*
+    Serial.print("Vol: ");
+    Serial.print(vol);
+    Serial.print("Nivel");
+    Serial.print(nivel);
+    Serial.print("\n");
+    delay(1000);
+    */
+  }
+  /*
   else if(pasos == 2){
     if(Serial.available() > 0){
       Serial.println("Ingrese el diametro");
@@ -67,15 +97,5 @@ void loop() {
 
   */
   // put your main code here, to run repeatedly:
-  lcd.setCursor(0,0);
-  a=sr04.Distance();
-  lcd.print("Distance: ");
-  lcd.print(a);
-  lcd.print("cm");
-  Serial.print(a);
-  Serial.print("\n");
-  delay(1000);
   
 }
-
-
