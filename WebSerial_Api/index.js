@@ -25,7 +25,7 @@ navigator.serial.getPorts().then((ports) => {
 
 function arduino() {
   navigator.serial.requestPort().then(async (port) => {
-    escribir(port);
+    //escribir(port);
     leer(port);
   });
 }
@@ -37,56 +37,34 @@ async function escribir(port) {
     const writer = textEncoder.writable.getWriter();
 
     await writer.write(`${altura.value},${diametro.value}`);
-  }, 1000);
+  }, 2000);
 }
+
 async function leer(port) {
-  setInterval(async () => {
-    await port.open({ baudRate: 9600 });
+  await port.open({ baudRate: 9600 });
 
-    while (port.readable) {
-      const textDecoder = new TextDecoderStream();
-      const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
-      const reader = textDecoder.readable.getReader();
+  const textDecoder = new TextDecoderStream();
+  const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+  const reader = textDecoder.readable.getReader();
 
-      // Listen to data coming from the serial device.
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          // Allow the serial port to be closed later.
-          reader.releaseLock();
-          break;
-        }
-        // value is a string.
-        let tr = document.createElement("tr");
-        for (let i = 0; i < 3; i++) {
-          let arr = [value, 0, 0];
-          let td = document.createElement("td");
-          td.innerHTML = `${arr[i]}cm`;
-          tr.append(td);
-        }
-
-        document
-          .getElementById("datos")
-          .insertBefore(tr, document.getElementById("datos").children[1]);
+  while (port.readable) {
+    // Listen to data coming from the serial device.
+    let str = "";
+    let arr = Array(1);
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        // Allow the serial port to be closed later.
+        reader.releaseLock();
+        console.log(value)
+        break;
       }
-      /*
-    try {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          // Allow the serial port to be closed later.
-          reader.releaseLock();
-          break;
-        }
-        if (value) {
-          console.log(value);
-        }
+      else {
+        console.log("algo pasó", done, value == '\n')
       }
-    } catch (error) {
-      // TODO: Handle non-fatal read error.
-    }*/
+      // value is a string.
     }
-  }, 1000);
+  }
 }
 
 document.getElementById("initial_values").addEventListener("submit", (form) => {
@@ -119,5 +97,4 @@ document.getElementById("initial_values").addEventListener("submit", (form) => {
 
 document.getElementById("monitor").addEventListener("submit", (form) => {
   form.preventDefault();
-  ejec();
 });

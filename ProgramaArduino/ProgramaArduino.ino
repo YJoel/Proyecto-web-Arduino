@@ -28,7 +28,7 @@ void setup() {
 
 void loop() {
 
-  
+  /*
   if(pasos == 1){
     if(Serial.available() > 0){
       // Esperar a la entrada del ususario
@@ -44,16 +44,16 @@ void loop() {
       diametroInt = diametro.toInt();
       pasos++;
     }
-  }
-  else{
+  }*/
+  
+  //else{
 
     // int vol = (altoInt - (int)a) * diametroInt;
     // int nivel = alto - (int)a;
-    lcd.setCursor(0, 0);
-    lcd.print("");
     a = sr04.Distance();
-    lcd.print(int(a));
-    delay(1000);
+    Serial.print("Hola ");
+    Serial.println(int(a));
+    delay(2000);
     /*
     lcd.print("Vol: ");
     lcd.print(vol);
@@ -71,31 +71,5 @@ void loop() {
     Serial.print(nivel);
     Serial.print("\n");
     delay(1000);
-    */
-  }
-  /*
-  else if(pasos == 2){
-    if(Serial.available() > 0){
-      Serial.println("Ingrese el diametro");
-      diametroStr = Serial.readString();
-      for(int i = 0; i < diametroStr.length(); i ++){
-        if(diametroStr[i] == '\n'){
-          diametroStr.remove(i);
-        }
-      }
-      pasos++;
-      Serial.println(diametroStr);
-    }
-  }
-  else if(pasos == 3){
-    Serial.println("programa Terminado");
-    Serial.println("Alto " + altoStr);
-    Serial.println("Diametro " + diametroStr);
-    pasos = 1;
-  }
-  // send data only when you receive data:
-
-  */
-  // put your main code here, to run repeatedly:
-  
+  }*/
 }
