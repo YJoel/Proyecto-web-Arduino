@@ -4,102 +4,110 @@
   <title>
     Arduino - Conect
   </title>
-
-  <style>
-    table,
-    tr,
-    th,
-    td {
-      border: 1px solid black;
-    }
-
-    table#datos tr td {
-      padding: 3px 7px;
-      border-radius: 0px;
-    }
-
-    table#datos tr:first-child th {
-      padding: 3px 7px;
-      border-radius: 10px 10px 0px 0px;
-    }
-
-    table#datos tr:last-child td {
-      padding: 3px 7px;
-      border-radius: 0px 0px 10px 10px;
-    }
-
-    body {
-      box-sizing: content-box;
-      background: linear-gradient(to bottom right, white, #ABF1FF, #ABD6FF, #ACBCFF);
-      font-size: large;
-    }
-
-    input {
-      border: 0;
-      border-radius: 10px;
-      margin: 8px;
-      transition: 0.3s;
-    }
-
-    input:focus {
-      background: linear-gradient();
-      box-shadow: 0px 0px 10px 2px white;
-    }
-
-    input[type="submit"] {
-      cursor: pointer;
-      border: 1px solid white;
-      transition: 0.3s;
-      padding: 3px 5px;
-      border-color: gray;
-      margin: 7px;
-    }
-
-    input[type="submit"]:hover {
-      border-color: #ABF1FF;
-      background-color: #ABF1FF;
-      box-shadow: 0px 0px 0px 5px #ABD6FF;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-  <h1>Conectar Puerto Serie con php & Javascript</h1>
-
-  <h3> Ingrese los valores iniciales para comenzar el programa: </h3>
-  <form action="" id="initial_values" name="initial-values">
-    <fieldset>
-      <legend>DIMENSIONES DEL ESTANQUE</legend>
-      <label for="altura">Altura (cm): </label>
-      <input type="number" min="0" value="50" id="altura" name="altura" required>
-      <br>
-      <label for="diametro">Diametro (cm):</label>
-      <input type="number" min="0" value="30" id="diametro" name="diametro" required>
-      <br>
-      <input type="submit" value="Guardar">
-    </fieldset>
-  </form>
-  <form action="" id="monitor">
-    <fieldset>
-      <legend>PANEL DE MONITOREO</legend>
-
-      <div class="connect" id="connect">
-        Esperando por conexión de dispositivo...
+  <div class="container pt-4">
+    <h1>Arduino - Conect</h1>
+    <div class="row">
+      <div class="col-4">
+        <form action="" id="initial_values" name="initial-values">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Datos Iniciales</h5>
+              <p class="card-text">
+                Ingrese los valores iniciales para comenzar el programa
+                content.
+              </p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <label for="altura">Altura (cm):</label>
+                <input class="form-control" type="number" min="0" value="50" id="altura" name="altura" required>
+              </li>
+              <li class="list-group-item">
+                <label for="diametro">Diametro (cm):</label>
+                <input class="form-control" type="number" min="0" value="30" id="diametro" name="diametro" required>
+              </li>
+              <li class="list-group-item">
+                <input class="btn btn-primary" type="submit" id="validar" value="Validar Datos">
+                <input class="btn btn-primary mt-3" readonly id="stopInterval" value="Detener programa">
+              </li>
+            </ul>
+          </div>
+        </form>
       </div>
-    </fieldset>
-    <fieldset>
-      <table id="datos" align="center" width="70%">
-        <tr>
-          <th>NIVEL DEL AGUA</th>
-          <th>PUREZA</th>
-          <th>TEMPERATURA</th>
-        </tr>
-      </table>
-    </fieldset>
-  </form>
+      <div class="col-8">
+        <form action="" id="monitor" class="mt-4 mb-4">
+          <fieldset>
+            <legend>
+              <b>PANEL DE MONITOREO</b>
+            </legend>
+
+            <div class="connect" id="connect">
+              Esperando por conexión de dispositivo...
+            </div>
+          </fieldset>
+          <fieldset>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">NIVEL DEL AGUA</th>
+                  <th scope="col">TEMPERATURA</th>
+                  <th scope="col">PUREZA</th>
+                  <th scope="col">PH</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="datos">
+                  <td>
+                    <div style="width: 90%">
+                      <canvas id="grafica4"></canvas>
+                    </div>
+                  </td>
+                  <td id="temperatura"></td>
+                  <td id="pureza"></td>
+                  <td id="ph"></td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <h3>
+          Grafica de Temperatura
+        </h3>
+        <canvas id="grafica1"></canvas>
+      </div>
+      <div class="col-4">
+        <h3>
+          Grafica de Pureza
+        </h3>
+        <canvas id="grafica2"></canvas>
+      </div>
+      <div class="col-4">
+        <h3>
+          Grafica de Ph
+        </h3>
+        <canvas id="grafica3"></canvas>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./WebSerial_Api/AppArduino.js"></script>
   <!--<script src="WebUsb_Api\index.js"></script>-->
-  <script src="WebSerial_Api/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
